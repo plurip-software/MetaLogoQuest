@@ -21,15 +21,6 @@ logoFromList :: Dimensions -> [Pixel8] -> Logo
 logoFromList dimensions' =
     Logo . createImage dimensions' . Data . fromList
 
-createImage :: Dimensions -> Data -> Image
-createImage (Dimensions {width = width', height = height'}) (Data data')  =
-    ImageBasic $
-        CP.Image
-            { CP.imageWidth  = width'
-            , CP.imageHeight = height'
-            , CP.imageData   = data'
-            }
-
 data Dimensions =
     Dimensions 
         { width  :: Int
@@ -50,6 +41,15 @@ instance Show Meta where
 data Image
     = ImageFull Path (CP.Image Pixel8)
     | ImageBasic (CP.Image Pixel8)
+
+createImage :: Dimensions -> Data -> Image
+createImage (Dimensions {width = width', height = height'}) (Data data')  =
+    ImageBasic $
+        CP.Image
+            { CP.imageWidth  = width'
+            , CP.imageHeight = height'
+            , CP.imageData   = data'
+            }
 
 instance Show Image where
   show image' =
