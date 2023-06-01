@@ -5,9 +5,8 @@ module Types (Quest(..), Logo(..), Meta(..), Label(..), Image (..), Pixel8, logo
 import           Codec.Picture        (Pixel8, PixelBaseComponent (..),
                                        readImage)
 import qualified Codec.Picture        as CP
-import Data.Vector.Storable ( Vector(..), fromList )
-import           Data.List            (intercalate)
-import           Path                 (Path (..), path)
+import           Data.Vector.Storable (Vector (..), fromList)
+import           Path                 (Path (..))
 
 data Quest
     = Quest Logo Meta
@@ -21,11 +20,12 @@ logoFromList :: Dimensions -> [Pixel8] -> Logo
 logoFromList dimensions' =
     Logo . createImage dimensions' . Data . fromList
 
-data Dimensions =
-    Dimensions 
-        { width  :: Int
-        , height :: Int
-        }
+data Dimensions
+    = Dimensions Width Height
+
+newtype Width = Width Int
+
+newtype Height = Height Int
 
 newtype Data = Data (Vector (PixelBaseComponent Pixel8))
 
@@ -43,7 +43,7 @@ data Image
     | ImageBasic (CP.Image Pixel8)
 
 createImage :: Dimensions -> Data -> Image
-createImage (Dimensions {width = width', height = height'}) (Data data')  =
+createImage (Dimensions (Width width') (Height height')) (Data data')  =
     ImageBasic $
         CP.Image
             { CP.imageWidth  = width'
