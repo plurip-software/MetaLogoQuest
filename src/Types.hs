@@ -43,7 +43,7 @@ data Image
     | ImageBasic (CP.Image Pixel8)
 
 createImage :: Dimensions -> Data -> Image
-createImage (Dimensions (Width width') (Height height')) (Data data')  =
+createImage (Dimensions (Width width') (Height height')) (Data data') =
     ImageBasic $
         CP.Image
             { CP.imageWidth  = width'

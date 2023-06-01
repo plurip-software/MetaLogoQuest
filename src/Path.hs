@@ -7,10 +7,7 @@ data Path
 
 path :: Dirs -> Filename -> Extention -> Path
 path dirs filename =
-    Path (directories dirs) . File (Name filename)
-    where
-        directories :: Dirs -> [Directory]
-        directories = map Directory
+    Path (map Directory dirs) . File (Name filename)
 
 type Dirs = [String]
 
