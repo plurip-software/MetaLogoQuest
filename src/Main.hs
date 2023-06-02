@@ -2,7 +2,7 @@ module Main (main) where
 
 import           Codec.Picture       (readImage)
 import           Codec.Picture.Types (DynamicImage)
-import           Path                (Extention (PNG), path)
+import           Path                (Extension (..), path)
 
 main :: IO (Either String DynamicImage)
 main = do
