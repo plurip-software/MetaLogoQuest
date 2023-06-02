@@ -29,7 +29,7 @@ executable MetaLogoQuest
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    other-modules: Types, Path
+    other-modules: Data, Path
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

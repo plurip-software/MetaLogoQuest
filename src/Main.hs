@@ -1,9 +1,8 @@
 module Main (main) where
 
-import Data.Functions
-import Codec.Picture ( readImage )
-import Path (path, Extention (PNG))
-import Codec.Picture.Types ( DynamicImage )
+import           Codec.Picture       (readImage)
+import           Codec.Picture.Types (DynamicImage)
+import           Path                (Extention (PNG), path)
 
 main :: IO (Either String DynamicImage)
 main = do
