@@ -1,5 +1,3 @@
-{-# LANGUAGE FlexibleInstances #-}
-
 module Data (Quest(..), Logo(..), Meta(..), Label(..), Image (..), Pixel8, logoFromList) where
 
 import           Codec.Picture        (Pixel8, PixelBaseComponent (..),

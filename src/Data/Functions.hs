@@ -1,4 +1,4 @@
-module Data.Functions (showWithLabel, createImage) where
+module Functions (showWithLabel, createImage) where
 
 import Data.Types (Quest(..), Logo(..), Meta(..), Label(..), Image (..), Pixel8, logoFromList)
 
