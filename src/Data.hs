@@ -1,4 +1,5 @@
-module Data (Quest(..), Logo(..), Meta(..), Label(..), Image (..), Pixel8, logoFromList) where
+module Data (Quest(..), Logo(..), Meta(..), Label(..), Image (..), Pixel8, logoFromList, readIMG, writeIMG
+) where
 
 import           Codec.Picture        (Pixel8, PixelBaseComponent (..),
                                        readImage, saveJpgImage, savePngImage)
@@ -63,18 +64,14 @@ showWithLabel :: Label -> [String] -> String
 showWithLabel label' types' =
     foldl (<>) "" $ show label' : types'
 
+getExtension :: Path -> Extension
+getExtension (Path _ (File _ extension')) = extension'
+
 readIMG :: Path -> IO (Either String DynamicImage)
 readIMG = readImage . show
 
-writeIMG :: Path -> (Path, Quality) -> IO ()
-writeIMG pathR (pathW, quality)  = do
-    eitherIMG <- readImage $ show pathR
-    case (eitherIMG, pathR) of
-        (Left _, _)                       -> 
-            return ()
-
-        (Right img', Path _ (File _ PNG)) ->
-            savePngImage (show pathW) img'
-
-        (Right img', Path _ (File _ (JPG quality'))) ->
-            saveJpgImage (readQL quality') (show pathW) img'
+writeIMG :: Path -> DynamicImage -> IO ()
+writeIMG path' = do
+    case getExtension path' of
+        PNG          -> savePngImage $ show path' 
+        JPG quality' -> saveJpgImage (readQL quality') $ show path' 

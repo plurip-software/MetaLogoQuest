@@ -1,10 +1,22 @@
+{-# LANGUAGE EmptyCase #-}
+
 module Main (main) where
 
 import           Codec.Picture       (readImage)
 import           Codec.Picture.Types (DynamicImage)
-import           Path                (Extension (..), path)
+import           Path                (Extension (..), path, Path(..))
+import           Data                (readIMG, writeIMG)
 
-main :: IO (Either String DynamicImage)
+main :: IO ()
 main = do
-    img <- readImage . show $ path ["imgs"] "logo" PNG
-    return img
+    img <- readIMG pathR
+    case img of
+        Left _   -> return ()
+        Right img' -> writeIMG pathW img'
+    where
+        pathR :: Path
+        pathR = path ["imgs"] "logo" PNG
+
+        pathW :: Path
+        pathW = path ["imgs"] "logo_written" PNG
+ 
