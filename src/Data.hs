@@ -1,10 +1,13 @@
-module Data (Quest(..), Logo(..), Meta(..), Label(..), Image (..), Pixel8, logoFromList) where
+module Data (Quest(..), Logo(..), Meta(..), Label(..), Image (..), Pixel8, logoFromList, readIMG, writeIMG
+) where
 
 import           Codec.Picture        (Pixel8, PixelBaseComponent (..),
-                                       readImage)
+                                       readImage, saveJpgImage, savePngImage)
 import qualified Codec.Picture        as CP
+import           Codec.Picture.Types  (DynamicImage)
 import           Data.Vector.Storable (Vector (..), fromList)
-import           Path                 (Path (..))
+import           Path                 (Extension (..), File (..), Path (..),
+                                       Quality (..), readQL)
 
 data Quest
     = Quest Logo Meta
@@ -45,7 +48,6 @@ newtype Label = Label String
 instance Show Label where
     show (Label label') = label' <> " => "
 
-
 createImage :: Dimensions -> Data -> Image
 createImage (Dimensions (Width width') (Height height')) (Data data') =
     ImageBasic $
@@ -62,3 +64,15 @@ logoFromList dimensions' =
 showWithLabel :: Label -> [String] -> String
 showWithLabel label' types' =
     foldl (<>) "" $ show label' : types'
+
+getExtension :: Path -> Extension
+getExtension (Path _ (File _ extension')) = extension'
+
+readIMG :: Path -> IO (Either String DynamicImage)
+readIMG = readImage . show
+
+writeIMG :: Path -> DynamicImage -> IO ()
+writeIMG path' = do
+    case getExtension path' of
+        PNG          -> savePngImage $ show path'
+        JPG quality' -> saveJpgImage (readQL quality') $ show path'
