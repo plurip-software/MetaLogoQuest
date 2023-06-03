@@ -5,7 +5,7 @@ import           Codec.Picture        (Pixel8, PixelBaseComponent (..),
 import qualified Codec.Picture        as CP
 import           Codec.Picture.Types  (DynamicImage)
 import           Data.Vector.Storable (Vector (..), fromList)
-import           Path                 (Extension (..), File (..), Path (..), Quality (..))
+import           Path                 (Extension (..), File (..), Path (..), Quality (..), readQL)
 
 data Quest
     = Quest Logo Meta
@@ -46,7 +46,6 @@ newtype Label = Label String
 instance Show Label where
     show (Label label') = label' <> " => "
 
-
 createImage :: Dimensions -> Data -> Image
 createImage (Dimensions (Width width') (Height height')) (Data data') =
     ImageBasic $
@@ -77,8 +76,5 @@ writeIMG pathR (pathW, quality)  = do
         (Right img', Path _ (File _ PNG)) ->
             savePngImage (show pathW) img'
 
-        (Right img', Path _ (File _ (JPG (Quality quality')))) ->
-            saveJpgImage quality' (show pathW) img'
-
-readQuality :: Quality -> Int
-readQuality (Quality quality') = quality'
+        (Right img', Path _ (File _ (JPG quality'))) ->
+            saveJpgImage (readQL quality') (show pathW) img'
