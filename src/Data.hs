@@ -6,7 +6,8 @@ import           Codec.Picture        (Pixel8, PixelBaseComponent (..),
 import qualified Codec.Picture        as CP
 import           Codec.Picture.Types  (DynamicImage)
 import           Data.Vector.Storable (Vector (..), fromList)
-import           Path                 (Extension (..), File (..), Path (..), Quality (..), readQL)
+import           Path                 (Extension (..), File (..), Path (..),
+                                       Quality (..), readQL)
 
 data Quest
     = Quest Logo Meta
@@ -73,5 +74,5 @@ readIMG = readImage . show
 writeIMG :: Path -> DynamicImage -> IO ()
 writeIMG path' = do
     case getExtension path' of
-        PNG          -> savePngImage $ show path' 
-        JPG quality' -> saveJpgImage (readQL quality') $ show path' 
+        PNG          -> savePngImage $ show path'
+        JPG quality' -> saveJpgImage (readQL quality') $ show path'
